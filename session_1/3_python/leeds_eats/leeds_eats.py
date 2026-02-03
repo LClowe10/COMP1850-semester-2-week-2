@@ -5,19 +5,47 @@ import sqlite3
 # ==================================================
 
 def total_customers(conn):
-    pass
+    query = '''
+            SELECT COUNT(*) AS total_customers
+            FROM customers;
+            '''
+    cursor = conn.execute(query)
+    total_customers = cursor.fetchone()
+    print(f"TOTAL CUSTOMERS: {total_customers[0]}")
 
 
 def customer_signup_range(conn):
-    pass
+    query = '''
+            SELECT MIN(signup_date), MAX(signup_date)
+            FROM customers
+            ORDER BY signup_date;
+            '''
+
+    cursor = conn.execute(query)
+    range = cursor.fetchone()
+    print(f"RANGE: {range[0]} - {range[1]}")
 
 
 def order_summary_stats(conn):
-    pass
+    query = '''
+            SELECT COUNT(*) AS total_orders, AVG(order_total), MIN(order_total), MAX(order_total)
+            FROM orders;
+            '''
+    cursor = conn.execute(query)
+    stats = cursor.fetchone()
+    print(f"TOTAL ORDERS: {stats[0]} AVERAGE ORDER: {stats[1]} MIN/MAX ORDERS: {stats[2]}/{stats[3]}")
 
 
 def driver_summary(conn):
-    pass
+    query = '''
+            SELECT driver_name, DATE(hire_date)
+            FROM drivers;
+            '''
+    cursor = conn.execute(query)
+    total = len(cursor)
+    print(f"NUMBER OF DRIVERS: {total}")
+    for i in cursor:
+        print(f"DRIVER NAME: {i[0]} | HIRE DATE: {i[1]}")
 
 
 # ==================================================
